@@ -8,29 +8,34 @@
       <p>description: {{ event.description }}</p>
     </div>
 
-    <button type="submit" @click="fetchEvents()">fetchEvents</button>
+    <v-btn type="submit" @click="fetchEvents()">fetchEvents</v-btn>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from "axios";
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'CalendarDetails',
-  data: () => ({
-    events: [],
-  }),
-  methods: {
-    fetchEvents() {
-      axios
-        .get('http://localhost:3000/events')
-        .then((response) => {
-          this.events = response.data;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+  name: "CalendarDetails",
+  // data: () => ({
+  //   events: [],
+  // }),
+  computed: {
+      ...mapGetters('events', ['events']),
     },
+  methods: {
+    // fetchEvents() {
+    //   axios
+    //     .get("http://localhost:3000/events")
+    //     .then((response) => {
+    //       this.events = response.data;
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
+    ...mapActions('events', ['fetchEvents'])
   },
 };
 </script>
