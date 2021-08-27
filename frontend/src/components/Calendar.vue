@@ -1,42 +1,55 @@
 <template>
   <div>
-    <!-- <h1>Calendar</h1>
-    <p>events:</p> -->
+    <h1 class="text-h1">Calendar</h1>
+    <!-- <p>events:</p> -->
     <!-- <p>{{ events }}</p> -->
-    <ul id="example-1">
-      <li v-for="event in events" :key="event.id">
+    <!-- <v-list >
+      <v-list-item v-for="event in events" :key="event.id">
         {{ event.name }}
-      </li>
-    </ul>
-    <button type="submit" @click="fetchEvents()">fetchEvents</button>
-    <CalendarDetails />
+      </v-list-item>
+    </v-list> -->
+    <v-btn type="submit" @click="fetchEvents()">fetchEvents</v-btn>
+    <v-sheet height="100vh">
+      <v-calendar
+        :events="events"
+        @change="fetchEvents"
+        v-model="value"
+      ></v-calendar>
+    </v-sheet>
+    <!-- <CalendarDetails /> -->
   </div>
 </template>
 
 <script>
-import CalendarDetails from './CalendarDetails'
-import axios from "axios"
+// import CalendarDetails from "./CalendarDetails";
+// import axios from "axios";
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'Calendar',
+  name: "Calendar",
   data: () => ({
-    events: []
+    // events: [],
+    value: new Date('2021/07/01'),  // 表示する月を指定
   }),
+  computed: {
+    ...mapGetters('events', ['events']),
+  },
   components: {
-    CalendarDetails,
+    // CalendarDetails,
   },
   methods: {
-    fetchEvents() {
-      // GETリクエストを送信し、取得データをevents変数に代入する
-      axios
-        .get('http://localhost:3000/events')
-        .then(response => {
-          this.events = response.data;
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
-  }
+    // fetchEvents() {
+    //   // GETリクエストを送信し、取得データをevents変数に代入する
+    //   axios
+    //     .get("http://localhost:3000/events")
+    //     .then((response) => {
+    //       this.events = response.data;
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
+    ...mapActions('events', ['fetchEvents'])
+  },
 };
 </script>
