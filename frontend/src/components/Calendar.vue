@@ -52,12 +52,15 @@
         </v-card>
       </div>
     </v-dialog> -->
-    <v-dialog :value="event !== null" width="600">
+    <v-dialog
+      :value="event !== null"
+      width="600"
+      @click:outside="closeDialog">
       <div v-if="event !== null">
         <v-card class="pb-12">
           <!-- justify: 左右, align: 上下  -->
           <v-card-actions class="d-flex justify-end pa-2">
-            <v-btn icon>
+            <v-btn icon @click="closeDialog()">
               <v-icon size="20px">mdi-close</v-icon>
             </v-btn>
           </v-card-actions>
@@ -145,6 +148,9 @@ export default {
       // alert(event.name)
       // this.dialogMessage = event.name
       this.setEvent(event)
+    },
+    closeDialog() {
+      this.setEvent(null);
     },
   },
 };
