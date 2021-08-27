@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-h1">Calendar</h1>
+    <!-- <h1 class="text-h1">Calendar</h1> -->
     <!-- <p>events:</p> -->
     <!-- <p>{{ events }}</p> -->
     <!-- <v-list >
@@ -8,12 +8,30 @@
         {{ event.name }}
       </v-list-item>
     </v-list> -->
-    <v-btn type="submit" @click="fetchEvents()">fetchEvents</v-btn>
+    <!-- <v-btn type="submit" @click="fetchEvents()">fetchEvents</v-btn> -->
+    <v-sheet height="6vh" class="d-flex align-center">
+      <v-btn icon>
+        <v-icon @click="$refs.calendar.prev()" >mdi-chevron-left</v-icon>
+      </v-btn>
+      <v-btn @click="setToday()">
+        今日
+      </v-btn>
+      <v-btn icon>
+        <v-icon @click="$refs.calendar.next()">mdi-chevron-right</v-icon>
+      </v-btn>
+      <v-toolbar-title>{{title()}}</v-toolbar-title>
+    </v-sheet>
     <v-sheet height="100vh">
+      <!-- v-modelで読み込む月を指定 -->
+      <!-- ref="calendar"でv-calnedarコンポーネントのメソッドを使用可能に -->
       <v-calendar
+        ref="calendar"
         :events="events"
         @change="fetchEvents"
         v-model="value"
+        locale="ja-jp"
+        :day-format="(timestamp) => new Date(timestamp.date).getDate()"
+        :month-format="(timestamp) => (new Date(timestamp.date).getMonth() + 1) + ' /'"
       ></v-calendar>
     </v-sheet>
     <!-- <CalendarDetails /> -->
@@ -24,14 +42,19 @@
 // import CalendarDetails from "./CalendarDetails";
 // import axios from "axios";
 import { mapGetters, mapActions } from 'vuex';
+import { format } from 'date-fns';
 
 export default {
   name: "Calendar",
   data: () => ({
     // events: [],
     value: new Date('2021/07/01'),  // 表示する月を指定
+    title() {
+      return format(this.value, 'yyyy年 M月');
+    },
   }),
   computed: {
+    // eventsモジュールのeventsステーート
     ...mapGetters('events', ['events']),
   },
   components: {
@@ -49,7 +72,13 @@ export default {
     //       console.error(error);
     //     });
     // },
-    ...mapActions('events', ['fetchEvents'])
+
+    // eventsモジュールのfetchEventsアクション
+    ...mapActions('events', ['fetchEvents']),
+    setToday() {
+      console.log("set_today")
+      this.value = new Date()
+    },
   },
 };
 </script>
