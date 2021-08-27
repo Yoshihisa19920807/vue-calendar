@@ -13,10 +13,10 @@
 ActiveRecord::Schema.define(version: 2021_08_26_015927) do
 
   create_table "events", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name", limit: 100, null: false
-    t.datetime "start", null: false
-    t.datetime "end", null: false
-    t.boolean "timed", default: true
+    t.string "name"
+    t.datetime "start"
+    t.datetime "end"
+    t.boolean "timed"
     t.text "description"
     t.string "color"
     t.datetime "created_at", precision: 6, null: false
