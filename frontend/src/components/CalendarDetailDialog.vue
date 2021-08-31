@@ -15,7 +15,7 @@
             {{ event.name }}
           </v-col>
         </v-row> -->
-        <DialogRow icon="mdi-square" :color="event.color || 'blue'">
+        <DialogRow icon="mdi-square" :color="event.color">
           {{ event.name }}
         </DialogRow>
       </v-card-title>

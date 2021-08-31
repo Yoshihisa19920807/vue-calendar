@@ -7,7 +7,7 @@
       </v-btn>
     </v-card-actions>
     <v-card-text>
-      <DialogRow icon="mdi-square" :color="event.color || 'blue'">
+      <DialogRow icon="mdi-square" :color="event.color">
         <v-text-field v-model="name" label="Title"></v-text-field>
       </DialogRow>
     </v-card-text>
@@ -53,7 +53,7 @@ import { mapGetters, mapActions } from 'vuex';
 import DialogRow from "./DialogRow.vue"
 import DatePicker from "./DatePicker.vue"
 // named impport
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 
 export default {
   name: "EventFormDialog",
@@ -71,8 +71,8 @@ export default {
     ...mapGetters('events', ['events', 'event', 'isEditMode']),
   },
   created() {
-    this.startDate = format(this.event.start, 'yyyy/MM/dd');
-    this.endDate = format(this.event.end, 'yyyy/MM/dd');
+    this.startDate = this.event.startDate
+    this.endDate = this.event.endDate
   },
   methods: {
     closeDialog() {
