@@ -10,6 +10,7 @@
       <v-color-picker
         hide-canvas
         hide-inputs
+        hide-sliders
         show-swatches
         :value="value"
         @input="$emit('input', $event)"
