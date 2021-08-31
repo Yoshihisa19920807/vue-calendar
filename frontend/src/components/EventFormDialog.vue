@@ -10,8 +10,6 @@
       <DialogRow icon="mdi-square" :color="event.color">
         <v-text-field v-model="name" label="Title"></v-text-field>
       </DialogRow>
-    </v-card-text>
-    <v-card-text>
       <DialogRow icon="mdi-clock-outline">
         start
         <DatePicker v-model="startDate"/>
@@ -22,8 +20,13 @@
         <DatePicker v-model="endDate"/>
         <TimePicker v-model="endTime" />
       </DialogRow>
-    </v-card-text>
-    <v-card-text>
+      <DialogRow icon="mdi-text">
+        <TextForm v-model="description"/>
+      </DialogRow>
+      <DialogRow icon="mdi-palette">
+        Choose Color
+        <ColorPicker v-model="color"/>
+      </DialogRow>
       <div class="d-flex justify-center">
         <v-btn @click="create()">
           Submit
@@ -38,6 +41,8 @@ import { mapGetters, mapActions } from 'vuex';
 import DialogRow from "./DialogRow.vue"
 import DatePicker from "./DatePicker.vue"
 import TimePicker from "./TimePicker.vue"
+import TextForm from "./TextForm.vue"
+import ColorPicker from "./ColorPicker.vue"
 // named impport
 // import { format } from 'date-fns';
 
@@ -49,11 +54,15 @@ export default {
     endDate: null,
     startTime: null,
     endTime: null,
+    description: '',
+    color: '',
   }),
   components: {
     DialogRow,
     DatePicker,
     TimePicker,
+    TextForm,
+    ColorPicker,
   },
   computed: {
     // eventsモジュールのeventsステーート
@@ -77,6 +86,8 @@ export default {
         name: this.name,
         start,
         end,
+        description: this.description,
+        color: this.color,
       }
       this.createEvent(param);
       this.closeDialog()
