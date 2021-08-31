@@ -11,6 +11,17 @@
     <!-- v-modelを使わないのはpropsのvalueが不変だから値を変えずにemitで親に返す -->
     <!-- day-formatで「日」を消す -->
     <!-- v-date-pickerはyyyy-mm-ddの形式しか認識しないのでreplaceする -->
+    <!--
+    v-model="startDate"
+    ↓同じ
+    :value="startDate"
+    @input="startDate = $event.target.value"
+    ※カスタムコンポーネントの場合は
+    $event.target.value
+    ではなく
+    $event
+    のみ
+    -->
     <v-date-picker
       :value="value.replace(/\//g, '-')"
       @input="$emit('input', $event.replace(/-/g, '/'))"

@@ -13,29 +13,14 @@
     </v-card-text>
     <v-card-text>
       <DialogRow icon="mdi-clock-outline">
-        <!-- <v-date-picker
-          :value="value"
-          @input="$emit('input', $event)"
-          no-title
-          locale="ja-ja"
-          :day-format="startDate => new Date(startDate).getDate()"
-        ></v-date-picker>
-        <p>{{ startDate }}</p> -->
-        <!-- v-model="startDate"
-        ↓同じ
-        :value="startDate"
-        @input="startDate = $event.target.value"
-        ※カスタムコンポーネントの場合は
-        $event.target.value
-        ではなく
-        $event
-        のみ-->
         start
         <DatePicker v-model="startDate"/>
+        <TimePicker v-model="startTime" />
       </DialogRow>
       <DialogRow icon="mdi-clock-outline">
         end
         <DatePicker v-model="endDate"/>
+        <TimePicker v-model="endTime" />
       </DialogRow>
     </v-card-text>
     <v-card-text>
@@ -52,6 +37,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import DialogRow from "./DialogRow.vue"
 import DatePicker from "./DatePicker.vue"
+import TimePicker from "./TimePicker.vue"
 // named impport
 // import { format } from 'date-fns';
 
@@ -61,10 +47,13 @@ export default {
     name: '',
     startDate: null,
     endDate: null,
+    startTime: null,
+    endTime: null,
   }),
   components: {
     DialogRow,
     DatePicker,
+    TimePicker,
   },
   computed: {
     // eventsモジュールのeventsステーート
@@ -73,6 +62,8 @@ export default {
   created() {
     this.startDate = this.event.startDate
     this.endDate = this.event.endDate
+    this.startTime = this.event.startTime
+    this.endTime = this.event.endTime
   },
   methods: {
     closeDialog() {
@@ -80,13 +71,13 @@ export default {
       this.setEditMode(false)
     },
     create() {
+      let start = new Date(this.startDate + "/" + this.startTime)
+      let end = new Date(this.endDate + "/" + this.endTime)
       let param = {
         name: this.name,
-        start: this.startDate,
-        end: this.endDate,
+        start,
+        end,
       }
-      console.log("___param")
-      console.log(param)
       this.createEvent(param);
       this.closeDialog()
     },
