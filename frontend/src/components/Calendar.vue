@@ -126,7 +126,8 @@ export default {
       const _event = {
         name: "",
         start: new Date(date),
-        end: new Date(date)
+        end: new Date(date),
+        timed: true,
       }
       this.setEvent(_event)
       this.setEditMode(true)

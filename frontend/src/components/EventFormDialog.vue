@@ -13,14 +13,19 @@
       <DialogRow icon="mdi-clock-outline">
         start
         <DatePicker v-model="startDate"/>
-        <TimePicker v-model="startTime" />
-      </DialogRow>
-      <DialogRow icon="mdi-clock-outline">
+        <div v-show="!allDay">
+          <TimePicker v-model="startTime" />
+        </div>
         end
         <DatePicker v-model="endDate"/>
-        <TimePicker v-model="endTime" />
+        <div v-show="!allDay">
+          <TimePicker v-model="endTime" />
+        </div>
       </DialogRow>
-      <DialogRow icon="mdi-text">
+      <DialogRow>
+        <CheckBox v-model="allDay" :label="'All Day'"/>
+      </DialogRow>
+      <DialogRow icon="mdi-card-text-outline">
         <TextForm v-model="description"/>
       </DialogRow>
       <DialogRow icon="mdi-palette">
@@ -43,6 +48,7 @@ import DatePicker from "./DatePicker.vue"
 import TimePicker from "./TimePicker.vue"
 import TextForm from "./TextForm.vue"
 import ColorPicker from "./ColorPicker.vue"
+import CheckBox from "./CheckBox.vue"
 // named impport
 // import { format } from 'date-fns';
 
@@ -56,6 +62,7 @@ export default {
     endTime: null,
     description: '',
     color: '',
+    allDay: false,
   }),
   components: {
     DialogRow,
@@ -63,6 +70,7 @@ export default {
     TimePicker,
     TextForm,
     ColorPicker,
+    CheckBox,
   },
   computed: {
     // eventsモジュールのeventsステーート
@@ -73,6 +81,7 @@ export default {
     this.endDate = this.event.endDate
     this.startTime = this.event.startTime
     this.endTime = this.event.endTime
+    this.allDay = !this.event.timed
   },
   methods: {
     closeDialog() {
@@ -82,12 +91,15 @@ export default {
     create() {
       let start = new Date(this.startDate + "/" + this.startTime)
       let end = new Date(this.endDate + "/" + this.endTime)
+      console.log("this.allDay")
+      console.log(this.allDay)
       let param = {
         name: this.name,
         start,
         end,
         description: this.description,
         color: this.color,
+        timed: !this.allDay,
       }
       this.createEvent(param);
       this.closeDialog()

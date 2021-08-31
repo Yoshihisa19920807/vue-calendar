@@ -7,40 +7,14 @@
         </v-btn>
       </v-card-actions>
       <v-card-title>
-        <!-- <v-row>
-          <v-col cols="2" class="d-flex justify-center align-center">
-            <v-icon size="20px">mdi-square</v-icon>
-          </v-col>
-          <v-col class="d-flex align-center">
-            {{ event.name }}
-          </v-col>
-        </v-row> -->
         <DialogRow icon="mdi-square" :color="event.color">
           {{ event.name }}
         </DialogRow>
       </v-card-title>
       <v-card-text>
-        <!-- <v-row>
-          <v-col cols="2" class="d-flex justify-center align-center">
-            <v-icon size="20px">mdi-clock-time-three-outline</v-icon>
-          </v-col>
-          <v-col class="d-flex align-center">
-            {{ event.start.toLocaleString() }} ~ {{ event.end.toLocaleString() }}
-          </v-col>
-        </v-row> -->
         <DialogRow icon="mdi-clock-time-three-outline">
-          {{ event.start.toLocaleString() }} ~ {{ event.end.toLocaleString() }}
+          {{ event.startDate }}&nbsp;{{ event.timed ? event.startTime : '' }} ~ {{ event.endDate }}&nbsp;{{ event.timed ? event.endTime : '' }}
         </DialogRow>
-      </v-card-text>
-      <v-card-text>
-        <!-- <v-row>
-          <v-col cols="2" class="d-flex justify-center align-center">
-            <v-icon size="20px">mdi-card-text-outline</v-icon>
-          </v-col>
-          <v-col class="d-flex align-center">
-            {{ event.description || 'no description' }}
-          </v-col>
-        </v-row> -->
         <DialogRow icon="mdi-card-text-outline">
           {{ event.description || 'no description' }}
         </DialogRow>
