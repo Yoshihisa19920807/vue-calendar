@@ -13,17 +13,19 @@
       <DialogRow icon="mdi-clock-outline">
         start
         <DatePicker v-model="startDate"/>
-        <div v-if="timed">
+        <div v-show="!allDay">
           <TimePicker v-model="startTime" />
         </div>
         end
         <DatePicker v-model="endDate"/>
-        <div v-if="timed">
+        <div v-show="!allDay">
           <TimePicker v-model="endTime" />
         </div>
       </DialogRow>
-      <CheckBox v-model="timed"/>
-      <DialogRow icon="mdi-text">
+      <DialogRow>
+        <CheckBox v-model="allDay" :label="'All Day'"/>
+      </DialogRow>
+      <DialogRow icon="mdi-card-text-outline">
         <TextForm v-model="description"/>
       </DialogRow>
       <DialogRow icon="mdi-palette">
@@ -60,7 +62,7 @@ export default {
     endTime: null,
     description: '',
     color: '',
-    timed: true,
+    allDay: false,
   }),
   components: {
     DialogRow,
@@ -79,6 +81,7 @@ export default {
     this.endDate = this.event.endDate
     this.startTime = this.event.startTime
     this.endTime = this.event.endTime
+    this.allDay = !this.event.timed
   },
   methods: {
     closeDialog() {
@@ -88,15 +91,15 @@ export default {
     create() {
       let start = new Date(this.startDate + "/" + this.startTime)
       let end = new Date(this.endDate + "/" + this.endTime)
-      console.log("this.timed")
-      console.log(this.timed)
+      console.log("this.allDay")
+      console.log(this.allDay)
       let param = {
         name: this.name,
         start,
         end,
         description: this.description,
         color: this.color,
-        timed: this.timed,
+        timed: !this.allDay,
       }
       this.createEvent(param);
       this.closeDialog()

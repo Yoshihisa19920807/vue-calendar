@@ -4,9 +4,9 @@
     fluid
   >
     <v-checkbox
-      :label="'hoge'"
+      :label="label"
       :value="value"
-      @input="$emit('input', $event)"
+      @change="$emit('input', $event)"
     ></v-checkbox>
   </v-container>
 </template>
@@ -14,6 +14,6 @@
 <script>
   export default {
     name: 'CheckBox',
-    props: ['value'],
+    props: ['value', 'label'],
   }
 </script>
