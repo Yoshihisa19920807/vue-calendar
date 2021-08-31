@@ -13,13 +13,16 @@
       <DialogRow icon="mdi-clock-outline">
         start
         <DatePicker v-model="startDate"/>
-        <TimePicker v-model="startTime" />
-      </DialogRow>
-      <DialogRow icon="mdi-clock-outline">
+        <div v-if="timed">
+          <TimePicker v-model="startTime" />
+        </div>
         end
         <DatePicker v-model="endDate"/>
-        <TimePicker v-model="endTime" />
+        <div v-if="timed">
+          <TimePicker v-model="endTime" />
+        </div>
       </DialogRow>
+      <CheckBox v-model="timed"/>
       <DialogRow icon="mdi-text">
         <TextForm v-model="description"/>
       </DialogRow>
@@ -43,6 +46,7 @@ import DatePicker from "./DatePicker.vue"
 import TimePicker from "./TimePicker.vue"
 import TextForm from "./TextForm.vue"
 import ColorPicker from "./ColorPicker.vue"
+import CheckBox from "./CheckBox.vue"
 // named impport
 // import { format } from 'date-fns';
 
@@ -56,6 +60,7 @@ export default {
     endTime: null,
     description: '',
     color: '',
+    timed: true,
   }),
   components: {
     DialogRow,
@@ -63,6 +68,7 @@ export default {
     TimePicker,
     TextForm,
     ColorPicker,
+    CheckBox,
   },
   computed: {
     // eventsモジュールのeventsステーート
@@ -82,12 +88,15 @@ export default {
     create() {
       let start = new Date(this.startDate + "/" + this.startTime)
       let end = new Date(this.endDate + "/" + this.endTime)
+      console.log("this.timed")
+      console.log(this.timed)
       let param = {
         name: this.name,
         start,
         end,
         description: this.description,
         color: this.color,
+        timed: this.timed,
       }
       this.createEvent(param);
       this.closeDialog()
