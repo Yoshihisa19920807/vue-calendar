@@ -10,6 +10,9 @@
     </v-list> -->
     <!-- <v-btn type="submit" @click="fetchEvents()">fetchEvents</v-btn> -->
     <v-sheet height="6vh" class="d-flex align-center">
+      <!-- <v-btn icon>
+        <v-icon @click="hoge()" >he</v-icon>
+      </v-btn> -->
       <v-btn icon>
         <v-icon @click="$refs.calendar.prev()" >mdi-chevron-left</v-icon>
       </v-btn>
@@ -33,79 +36,35 @@
         :day-format="(timestamp) => new Date(timestamp.date).getDate()"
         :month-format="(timestamp) => (new Date(timestamp.date).getMonth() + 1) + ' /'"
         @click:event="showEvent"
+        @click:day="clickDay"
       ></v-calendar>
     </v-sheet>
-    <!-- value is boolean -->
-    <!-- <v-dialog :value="dialogMessage !== ''">
-      <h1>{{ dialogMessage }}</h1>
-    </v-dialog> -->
-    <!-- <v-dialog :value="event !== null">
-      <div v-if="event">
-        <v-card>
-          <h1>イベント詳細</h1>
-          <p>name: {{ event.name }}</p>
-          <p>start: {{ event.start.toLocaleString() }}</p>
-          <p>end: {{ event.end.toLocaleString() }}</p>
-          <p>timed: {{ event.timed }}</p>
-          <p>description: {{ event.description }}</p>
-          <p>color: {{ event.color }}</p>
-        </v-card>
-      </div>
-    </v-dialog> -->
     <v-dialog
-      :value="event !== null"
       width="600"
-      @click:outside="closeDialog">
-      <div v-if="event !== null">
-        <v-card class="pb-12">
-          <!-- justify: 左右, align: 上下  -->
-          <v-card-actions class="d-flex justify-end pa-2">
-            <v-btn icon @click="closeDialog()">
-              <v-icon size="20px">mdi-close</v-icon>
-            </v-btn>
-          </v-card-actions>
-          <v-card-title>
-            <v-row>
-              <v-col cols="2" class="d-flex justify-center align-center">
-                <v-icon size="20px">mdi-square</v-icon>
-              </v-col>
-              <v-col class="d-flex align-center">
-                {{ event.name }}
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col cols="2" class="d-flex justify-center align-center">
-                <v-icon size="20px">mdi-clock-time-three-outline</v-icon>
-              </v-col>
-              <v-col class="d-flex align-center">
-                {{ event.start.toLocaleString() }} ~ {{ event.end.toLocaleString() }}
-              </v-col>
-            </v-row>
-          </v-card-text>
-          <v-card-text>
-            <v-row>
-              <v-col cols="2" class="d-flex justify-center align-center">
-                <v-icon size="20px">mdi-card-text-outline</v-icon>
-              </v-col>
-              <v-col class="d-flex align-center">
-                {{ event.description || 'no description' }}
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </div>
+      @click:outside="closeDialog"
+      :value="event !== null"
+    >
+      <CalendarDetailDialog
+        v-if="event !== null && !isEditMode"
+      />
+      <!-- ここでv-ifを指定しないと表示されてなくても読み込みは行われてしまう -->
+      <EventFormDialog
+        v-if="event !== null && isEditMode"
+      />
     </v-dialog>
-    <!-- <CalendarDetails /> -->
   </div>
 </template>
 
 <script>
 // import CalendarDetails from "./CalendarDetails";
+import CalendarDetailDialog from "./CalendarDetailDialog";
+import EventFormDialog from "./EventFormDialog.vue"
 // import axios from "axios";
 import { mapGetters, mapActions } from 'vuex';
+// named impport
 import { format } from 'date-fns';
+// // default import
+// import axios from 'axios';
 
 export default {
   name: "Calendar",
@@ -119,12 +78,23 @@ export default {
   }),
   computed: {
     // eventsモジュールのeventsステーート
-    ...mapGetters('events', ['events', 'event']),
+    ...mapGetters('events', ['events', 'event', 'isEditMode']),
   },
   components: {
     // CalendarDetails,
+    CalendarDetailDialog,
+    EventFormDialog,
   },
   methods: {
+    // hoge() {
+    //   const apiUrl = 'http://localhost:3000';
+    //   axios.post(`${apiUrl}/events`, {event: { name: "created from button", start: new Date(), end: new Date()}})
+    //     .then(function (response) {
+    //       console.log(response.data);
+    //     })
+    // },
+
+
     // fetchEvents() {
     //   // GETリクエストを送信し、取得データをevents変数に代入する
     //   axios
@@ -138,19 +108,32 @@ export default {
     // },
 
     // eventsモジュールのfetchEventsアクション
-    ...mapActions('events', ['fetchEvents', 'setEvent']),
+    ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode']),
     setToday() {
       console.log("set_today")
       this.value = new Date()
     },
-    showEvent({ event }) {
-      console.log(event)
-      // alert(event.name)
-      // this.dialogMessage = event.name
+    showEvent({ nativeEvent, event }) {
       this.setEvent(event)
+      // this.setEditMode(false)
+      // prevent rendering editform
+      nativeEvent.stopPropagation();
+    },
+    // ({date}) = (date.date)
+    clickDay({date}) {
+      console.log("clickDay")
+      date = date.replace(/-/g, '/');
+      const _event = {
+        name: "",
+        start: new Date(date),
+        end: new Date(date)
+      }
+      this.setEvent(_event)
+      this.setEditMode(true)
     },
     closeDialog() {
       this.setEvent(null);
+      this.setEditMode(false)
     },
   },
 };
