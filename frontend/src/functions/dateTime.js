@@ -19,3 +19,13 @@ export const getDefaultStartAndEnd = date => {
   const end = format(addHours(datetime, 2), 'yyyy/MM/dd HH:00:00');
   return [start, end];
 }
+
+export const isEndGreaterThanStart = (startDate, startTime, endDate, endTime) => {
+  if (startDate > endDate) {
+    return false
+  } else if (startDate == endDate && startTime > endTime) {
+    return false
+  } else {
+    return true
+  }
+};

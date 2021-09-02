@@ -8,8 +8,15 @@
     </v-card-actions>
     <v-card-text>
       <DialogRow icon="mdi-square" :color="event.color">
-        <v-text-field v-model="name" label="Title"></v-text-field>
+        <v-text-field v-model="name" label="Title" ></v-text-field>
       </DialogRow>
+      <!-- <DialogRow>
+        <div v-if="!$v.name.required">Field is required</div>
+      </DialogRow>
+      <DialogRow>
+        <div v-if="!$v.name.minLength">Name must have at least {{$v.name.$params.minLength.min}} letters.</div>
+      </DialogRow> -->
+
       <DialogRow icon="mdi-clock-outline">
         start
         <DatePicker v-model="startDate"/>
@@ -33,7 +40,7 @@
         <ColorPicker v-model="color"/>
       </DialogRow>
       <div class="d-flex justify-center">
-        <v-btn @click="create()">
+        <v-btn @click="create()" :disabled="isInvalid">
           Submit
         </v-btn>
       </div>
@@ -49,11 +56,15 @@ import TimePicker from "./TimePicker.vue"
 import TextForm from "./TextForm.vue"
 import ColorPicker from "./ColorPicker.vue"
 import CheckBox from "./CheckBox.vue"
+import { validationMixin } from 'vuelidate'
+import { required, minLength } from 'vuelidate/lib/validators'
+ import { isEndGreaterThanStart } from '../functions/dateTime';
 // named impport
 // import { format } from 'date-fns';
 
 export default {
   name: "EventFormDialog",
+  mixins: [validationMixin],
   data: () => ({
     name: '',
     startDate: null,
@@ -73,6 +84,10 @@ export default {
     CheckBox,
   },
   computed: {
+    isInvalid(){
+      console.log(this.$v.$invalid)
+      return this.$v.$invalid || !isEndGreaterThanStart(this.startDate, this.startTime, this.endDate, this.endTime);
+    },
     // eventsモジュールのeventsステーート
     ...mapGetters('events', ['events', 'event', 'isEditMode']),
   },
@@ -106,6 +121,19 @@ export default {
       this.closeDialog()
     },
     ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode', 'createEvent']),
+  },
+  validations: {
+    name: {
+      required,
+      minLength: minLength(4)
+    },
+    startDate: {
+      required,
+    },
+    endDate: {
+      required,
+    }
+
   }
 }
 </script>
