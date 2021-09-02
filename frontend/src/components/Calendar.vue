@@ -22,7 +22,7 @@
       <v-btn icon>
         <v-icon @click="$refs.calendar.next()">mdi-chevron-right</v-icon>
       </v-btn>
-      <v-toolbar-title>{{title()}}</v-toolbar-title>
+      <v-toolbar-title>{{title}}</v-toolbar-title>
     </v-sheet>
     <v-sheet height="100vh">
       <!-- v-modelで読み込む月を指定 -->
@@ -65,18 +65,20 @@ import { mapGetters, mapActions } from 'vuex';
 import { format } from 'date-fns';
 // // default import
 // import axios from 'axios';
+import { getDefaultStartAndEnd } from "../functions/dateTime"
 
 export default {
   name: "Calendar",
   data: () => ({
     // events: [],
     value: new Date('2021/07/01'),  // 表示する月を指定
-    title() {
-      return format(this.value, 'yyyy年 M月');
-    },
+    
     // event: null,
   }),
   computed: {
+    title() {
+      return format(this.value, 'yyyy年 M月');
+    },
     // eventsモジュールのeventsステーート
     ...mapGetters('events', ['events', 'event', 'isEditMode']),
   },
@@ -123,10 +125,12 @@ export default {
     clickDay({date}) {
       console.log("clickDay")
       date = date.replace(/-/g, '/');
+
+      let start_end = getDefaultStartAndEnd(date)
       const _event = {
         name: "",
-        start: new Date(date),
-        end: new Date(date),
+        start: new Date(start_end[0]),
+        end: new Date(start_end[1]),
         timed: true,
       }
       this.setEvent(_event)
