@@ -5,7 +5,11 @@
   <v-menu offset-y>
     <!-- ここのonはevent listeners -->
     <template v-slot:activator="{ on }">
-      <v-btn text v-on="on">{{ value || '日付を選択' }}</v-btn>
+      <v-btn text v-on="on" :class="{ 'red lighten-4 rounded' : isError}">{{ value || '日付を選択' }}</v-btn>
+      <!-- <div v-show="isError">
+        "Invalid date"
+      </div> -->
+      <!-- <div>{{isError}}</div> -->
     </template>
 
     <!-- v-modelを使わないのはpropsのvalueが不変だから値を変えずにemitで親に返す -->
@@ -36,6 +40,6 @@
 <script>
 export default {
   name: 'DateForm',
-  props: ['value'],
+  props: ['value', 'isError'],
 }
 </script>

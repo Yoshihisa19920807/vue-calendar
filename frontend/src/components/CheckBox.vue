@@ -1,14 +1,16 @@
 <template>
-  <v-container
+  <!-- <v-container
     class="px-0"
     fluid
-  >
+  > -->
     <v-checkbox
       :label="label"
       :value="value"
       @change="$emit('input', $event)"
+      dense
+      hide-details=true
     ></v-checkbox>
-  </v-container>
+  <!-- </v-container> -->
 </template>
 
 <script>

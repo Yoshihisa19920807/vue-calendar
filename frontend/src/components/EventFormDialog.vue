@@ -18,19 +18,20 @@
       </DialogRow> -->
 
       <DialogRow icon="mdi-clock-outline">
-        start
+        <!-- start -->
         <DatePicker v-model="startDate"/>
         <div v-show="!allDay">
           <TimePicker v-model="startTime" />
         </div>
-        end
-        <DatePicker v-model="endDate"/>
+        <span class="px-2">–</span>
+        <!-- end -->
+        <DatePicker v-model="endDate" :isError="isInvalidDatetime" />
         <div v-show="!allDay">
-          <TimePicker v-model="endTime" />
+          <TimePicker v-model="endTime" :isError="isInvalidDatetime" />
         </div>
       </DialogRow>
       <DialogRow>
-        <CheckBox v-model="allDay" :label="'All Day'"/>
+        <CheckBox v-model="allDay" :label="'All Day'" class="ma-0 pa-0"/>
       </DialogRow>
       <DialogRow icon="mdi-card-text-outline">
         <TextForm v-model="description"/>
@@ -84,9 +85,12 @@ export default {
     CheckBox,
   },
   computed: {
+    isInvalidDatetime(){
+      return !isEndGreaterThanStart(this.startDate, this.startTime, this.endDate, this.endTime);
+    },
     isInvalid(){
       console.log(this.$v.$invalid)
-      return this.$v.$invalid || !isEndGreaterThanStart(this.startDate, this.startTime, this.endDate, this.endTime);
+      return this.$v.$invalid || this.isInvalidDatetime
     },
     // eventsモジュールのeventsステーート
     ...mapGetters('events', ['events', 'event', 'isEditMode']),
@@ -104,11 +108,11 @@ export default {
       this.setEditMode(false)
     },
     create() {
-      console.log(this.startDate)
+      if (this.isInvalid) {
+        return
+      }
       let start = new Date(this.startDate + "/" + this.startTime)
       let end = new Date(this.endDate + "/" + this.endTime)
-      console.log("this.allDay")
-      console.log(this.allDay)
       let param = {
         name: this.name,
         start,
