@@ -7,8 +7,12 @@
       </v-btn>
     </v-card-actions>
     <v-card-text>
-      <DialogRow icon="mdi-square" :color="event.color">
-        <v-text-field v-model="name" label="Title" ></v-text-field>
+      <DialogRow icon="mdi-square" :color="event.color" :append="$v.name.$error && (!$v.name.required || !$v.name.minLength)">
+        <v-text-field v-model="name" label="Title" :class="{ 'red lighten-4 rounded' : $v.name.$error && (!$v.name.required || !$v.name.minLength)}" @input="$v.name.$touch()"></v-text-field>
+        <template v-slot:append>
+          <p class="red--text" v-show="!$v.name.required">Title is required</p>
+          <p class="red--text" v-show="!$v.name.minLength">Minimum length is 4</p>
+        </template>
       </DialogRow>
       <!-- <DialogRow>
         <div v-if="!$v.name.required">Field is required</div>
@@ -17,7 +21,7 @@
         <div v-if="!$v.name.minLength">Name must have at least {{$v.name.$params.minLength.min}} letters.</div>
       </DialogRow> -->
 
-      <DialogRow icon="mdi-clock-outline">
+      <DialogRow icon="mdi-clock-outline" :append="isInvalidDatetime">
         <!-- start -->
         <DatePicker v-model="startDate"/>
         <div v-show="!allDay">
@@ -29,6 +33,9 @@
         <div v-show="!allDay">
           <TimePicker v-model="endTime" :isError="isInvalidDatetime" />
         </div>
+        <template v-slot:append>
+          <p class="red--text">Invalid date</p>
+        </template>
       </DialogRow>
       <DialogRow>
         <CheckBox v-model="allDay" :label="'All Day'" class="ma-0 pa-0"/>
