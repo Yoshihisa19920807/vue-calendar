@@ -89,6 +89,7 @@ export default {
       this.setEditMode(false)
     },
     create() {
+      console.log(this.startDate)
       let start = new Date(this.startDate + "/" + this.startTime)
       let end = new Date(this.endDate + "/" + this.endTime)
       console.log("this.allDay")
