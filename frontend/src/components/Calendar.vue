@@ -132,6 +132,7 @@ export default {
         start: new Date(start_end[0]),
         end: new Date(start_end[1]),
         timed: true,
+        color: "blue"
       }
       this.setEvent(_event)
       this.setEditMode(true)
