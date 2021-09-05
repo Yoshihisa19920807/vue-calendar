@@ -2,13 +2,18 @@
     <v-card class="pb-12">
       <!-- justify: 左右, align: 上下  -->
       <v-card-actions class="d-flex justify-end pa-2">
+        <v-btn icon @click="_deleteEvent()">
+          <v-icon size="20px">mdi-trash-can-outline</v-icon>
+        </v-btn>
         <v-btn icon @click="closeDialog()">
           <v-icon size="20px">mdi-close</v-icon>
         </v-btn>
       </v-card-actions>
-      <v-card-title>
+      <v-card-title class="px-15">
         <DialogRow icon="mdi-square" :color="event.color">
+          <div class="ms-8">
           {{ event.name }}
+          </div>
         </DialogRow>
       </v-card-title>
       <v-card-text>
@@ -42,7 +47,13 @@ export default {
       this.setEvent(null);
       this.setEditMode(false)
     },
-    ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode']),
+    _deleteEvent(){
+      console.log("deleteEvent")
+      console.log(this.event)
+      this.deleteEvent(this.event.id)
+      // this.closeDialog()
+    },
+    ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode', 'deleteEvent']),
   }
 }
 </script>
