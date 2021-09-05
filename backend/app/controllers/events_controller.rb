@@ -37,6 +37,7 @@ class EventsController < ApplicationController
     #   render json: event.errors, status: 422
     # end
     event.destroy!
+    render json: event
   end
 
   private

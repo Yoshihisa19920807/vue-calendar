@@ -5,9 +5,10 @@
       <v-col cols="2" class="d-flex justify-center align-center">
         <v-icon size="20px" :color="color">{{ icon }}</v-icon>
       </v-col>
-      <v-col cols="10" class="d-flex align-center">
+      <v-col class="d-flex align-center">
         <slot></slot>
       </v-col>
+
     </v-row>
     <v-row v-show="append" class="ma-0 pa-0">
       <v-col cols="2" class="d-flex justify-center align-center">

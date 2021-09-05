@@ -25,6 +25,8 @@ const mutations = {
   setEvent: (state, event) => (state.event = event),
   setEditMode: (state, isEditMode) => (state.isEditMode = isEditMode),
   createEvent: (state, event) => (state.events = [...state.events, event]),
+  removeEvent: (state, event) => (state.events = state.events.filter(e => e.id !== event.id)),
+  resetEvent: state => (state.event = null),
 };
 
 // axiosでAPIリクエストを送信してeventsデータを取得し、mutationを呼び出す関数を定義する
@@ -43,6 +45,11 @@ const actions = {
     const response = await axios.post(`${apiUrl}/events`, event);
     commit('createEvent', response.data);
   },
+  async deleteEvent({ commit }, id) {
+    const response = await axios.delete(`${apiUrl}/events/${id}`);
+    commit( 'removeEvent', response.data);
+    commit( 'resetEvent');
+  }
 };
 
 export default {
