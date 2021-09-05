@@ -2,6 +2,9 @@
     <v-card class="pb-12">
       <!-- justify: 左右, align: 上下  -->
       <v-card-actions class="d-flex justify-end pa-2">
+        <v-btn icon @click="_editEvent()">
+          <v-icon size="20px">mdi-pencil</v-icon>
+        </v-btn>
         <v-btn icon @click="_deleteEvent()">
           <v-icon size="20px">mdi-trash-can-outline</v-icon>
         </v-btn>
@@ -52,6 +55,9 @@ export default {
       console.log(this.event)
       this.deleteEvent(this.event.id)
       // this.closeDialog()
+    },
+    _editEvent() {
+      this.setEditMode(true)
     },
     ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode', 'deleteEvent']),
   }
