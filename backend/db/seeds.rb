@@ -5,8 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
-Event.create!(name: '予定1', start: '2021-07-14 10:00:00', end: '2021-07-14 11:00:00')
-Event.create!(name: '予定2', start: '2021-07-14 10:00:00', end: '2021-07-14 11:00:00')
-Event.create!(name: '予定3', start: '2021-07-14 10:00:00', end: '2021-07-14 11:00:00')
-Event.create!(name: '予定4', start: '2021-07-14 10:00:00', end: '2021-07-14 11:00:00')
+Calendar.create!(name: 'カレンダー１', color: 'blue')
+Event.create!(calendar_id: 1, name: '予定1', start: '2021-07-14 10:00:00', end: '2021-07-14 11:00:00')
+Event.create!(calendar_id: 1, name: '予定2', start: '2021-07-14 10:00:00', end: '2021-07-14 11:00:00')
+Event.create!(calendar_id: 1, name: '予定3', start: '2021-07-14 10:00:00', end: '2021-07-14 11:00:00')
+Event.create!(calendar_id: 1, name: '予定4', start: '2021-07-14 10:00:00', end: '2021-07-14 11:00:00')
