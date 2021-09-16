@@ -26,6 +26,7 @@ const mutations = {
   setEditMode: (state, isEditMode) => (state.isEditMode = isEditMode),
   createEvent: (state, event) => (state.events = [...state.events, event]),
   removeEvent: (state, event) => (state.events = state.events.filter(e => e.id !== event.id)),
+  updateEvent: (state, event) => (state.events= state.events.map( e => (e.id === event.id ? event : e))),
   resetEvent: state => (state.event = null),
 };
 
@@ -49,6 +50,11 @@ const actions = {
     const response = await axios.delete(`${apiUrl}/events/${id}`);
     commit( 'removeEvent', response.data);
     commit( 'resetEvent');
+  },
+  async updateEvent({ commit }, event) {
+    const response = await axios.put(`${apiUrl}/events/${event.id}`, event);
+    commit( 'updateEvent', response.data);
+    // commit( 'resetEvent');
   }
 };
 

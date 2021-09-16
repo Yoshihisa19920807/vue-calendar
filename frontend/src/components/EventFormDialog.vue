@@ -51,6 +51,9 @@
         <v-btn @click="create()" :disabled="isInvalid">
           Submit
         </v-btn>
+        <v-btn @click="cancel()" >
+          Cancel
+        </v-btn>
       </div>
     </v-card-text>
   </v-card>
@@ -104,6 +107,8 @@ export default {
   },
   created() {
     this.startDate = this.event.startDate
+    this.name = this.event.name
+    this.description = this.event.description
     this.endDate = this.event.endDate
     this.startTime = this.event.startTime
     this.endTime = this.event.endTime
@@ -121,6 +126,7 @@ export default {
       let start = new Date(this.startDate + "/" + this.startTime)
       let end = new Date(this.endDate + "/" + this.endTime)
       let param = {
+        ...this.event,
         name: this.name,
         start,
         end,
@@ -128,10 +134,20 @@ export default {
         color: this.color,
         timed: !this.allDay,
       }
-      this.createEvent(param);
+      if (param.id) {
+        this.updateEvent(param);
+      } else {
+        this.createEvent(param);
+      }
       this.closeDialog()
     },
-    ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode', 'createEvent']),
+    cancel() {
+      this.setEditMode(false);
+      if (!this.event.id) {
+        this.setEvent(null);
+      }
+    },
+    ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode', 'createEvent', 'updateEvent']),
   },
   validations: {
     name: {
