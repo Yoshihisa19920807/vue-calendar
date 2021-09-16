@@ -71,13 +71,13 @@ export default {
   name: "Calendar",
   data: () => ({
     // events: [],
-    value: new Date('2021/07/01'),  // 表示する月を指定
+    value: new Date('2021/07/01'),  // 表示する月を指定 v-model="value"と繋がっている
     
     // event: null,
   }),
   computed: {
     title() {
-      return format(this.value, 'yyyy年 M月');
+      return format(new Date(this.value), 'yyyy年 M月');
     },
     // eventsモジュールのeventsステーート
     ...mapGetters('events', ['events', 'event', 'isEditMode']),
