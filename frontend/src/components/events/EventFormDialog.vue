@@ -41,7 +41,7 @@
         <CheckBox v-model="allDay" :label="'All Day'" class="ma-0 pa-0"/>
       </DialogRow>
       <DialogRow icon="mdi-card-text-outline">
-        <TextForm v-model="description"/>
+        <Text v-model="description"/>
       </DialogRow>
       <DialogRow icon="mdi-palette">
         Choose Color
@@ -61,15 +61,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import DialogRow from "./DialogRow.vue"
-import DatePicker from "./DatePicker.vue"
-import TimePicker from "./TimePicker.vue"
-import TextForm from "./TextForm.vue"
-import ColorPicker from "./ColorPicker.vue"
-import CheckBox from "./CheckBox.vue"
+import DialogRow from "../layouts/DialogRow.vue"
+import DatePicker from "../forms/DatePicker.vue"
+import TimePicker from "../forms/TimePicker.vue"
+import Text from "../forms/Text.vue"
+import ColorPicker from "../forms/ColorPicker.vue"
+import CheckBox from "../forms/CheckBox.vue"
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
- import { isEndGreaterThanStart } from '../functions/dateTime';
+import { isEndGreaterThanStart } from '../../functions/dateTime';
 // named impport
 // import { format } from 'date-fns';
 
@@ -90,7 +90,7 @@ export default {
     DialogRow,
     DatePicker,
     TimePicker,
-    TextForm,
+    Text,
     ColorPicker,
     CheckBox,
   },
