@@ -44,7 +44,7 @@
       @click:outside="closeDialog"
       :value="event !== null"
     >
-      <CalendarDetailDialog
+      <EventDetailDialog
         v-if="event !== null && !isEditMode"
       />
       <!-- ここでv-ifを指定しないと表示されてなくても読み込みは行われてしまう -->
@@ -57,15 +57,15 @@
 
 <script>
 // import CalendarDetails from "./CalendarDetails";
-import CalendarDetailDialog from "./CalendarDetailDialog";
-import EventFormDialog from "./EventFormDialog.vue"
+import EventDetailDialog from "../events/EventDetailDialog.vue";
+import EventFormDialog from "../events/EventFormDialog.vue"
 // import axios from "axios";
 import { mapGetters, mapActions } from 'vuex';
 // named impport
 import { format } from 'date-fns';
 // // default import
 // import axios from 'axios';
-import { getDefaultStartAndEnd } from "../functions/dateTime"
+import { getDefaultStartAndEnd } from "../../functions/dateTime"
 
 export default {
   name: "Calendar",
@@ -84,7 +84,7 @@ export default {
   },
   components: {
     // CalendarDetails,
-    CalendarDetailDialog,
+    EventDetailDialog,
     EventFormDialog,
   },
   methods: {

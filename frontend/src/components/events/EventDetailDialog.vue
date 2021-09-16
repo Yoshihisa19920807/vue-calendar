@@ -32,12 +32,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import DialogRow from "./DialogRow.vue"
+import DialogRow from "../layouts/DialogRow.vue"
 // named impport
 // import { format } from 'date-fns';
 
 export default {
-  name: "CalendarDetailDialog",
+  name: "EventDetailDialog",
   components: {
     DialogRow,
   },

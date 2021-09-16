@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { getTimeIntervalList } from "../functions/dateTime"
+import { getTimeIntervalList } from "../../functions/dateTime"
 
 export default {
   name: 'TimePicker',
