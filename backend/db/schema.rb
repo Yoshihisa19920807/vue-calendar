@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_16_063627) do
+ActiveRecord::Schema.define(version: 2021_09_16_235914) do
 
   create_table "calendars", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 100
@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 2021_09_16_063627) do
   end
 
   create_table "events", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "calendar_id", null: false
     t.string "name", limit: 100, null: false
     t.datetime "start", null: false
     t.datetime "end", null: false
@@ -30,6 +29,9 @@ ActiveRecord::Schema.define(version: 2021_09_16_063627) do
     t.string "color"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "calendar_id", null: false
+    t.index ["calendar_id"], name: "index_events_on_calendar_id"
   end
 
+  add_foreign_key "events", "calendars"
 end

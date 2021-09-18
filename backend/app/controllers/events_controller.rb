@@ -1,18 +1,18 @@
 class EventsController < ApplicationController
   def index
     # イベントデータの一覧を返す
-    render json: Event.all
+    render json: Event.all.to_json(include: :calendar)
   end
 
   def show
-    render json: Event.find(params[:id])
+    render json: Event.find(params[:id]).to_json(include: :calendar)
   end
 
   def create
     # パラメータの値でイベントデータを作成する
     event = Event.new(event_params)
     if event.save
-      render json: event
+      render json: event.to_json(include: :calendar)
     else
       render json: event.errors, status: 422
     end
@@ -22,7 +22,7 @@ class EventsController < ApplicationController
     # パラメータの値でイベントデータを更新する
     event = Event.find(params[:id])
     if event.update(event_params)
-      render json: event
+      render json: event.to_json(include: :calendar)
     else
       render json: event.errors, status: 422
     end
@@ -37,7 +37,7 @@ class EventsController < ApplicationController
     #   render json: event.errors, status: 422
     # end
     event.destroy!
-    render json: event
+    render json: event.to_json(include: :calendar)
   end
 
   private
