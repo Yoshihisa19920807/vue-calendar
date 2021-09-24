@@ -9,14 +9,14 @@
       </v-list-item>
     </v-list> -->
     <!-- <v-btn type="submit" @click="fetchEvents()">fetchEvents</v-btn> -->
-    <v-sheet height="6vh" class="d-flex align-center">
+    <v-sheet height="6vh" class="d-flex align-center" color="grey lighten-3">
       <!-- <v-btn icon>
         <v-icon @click="hoge()" >he</v-icon>
       </v-btn> -->
       <v-btn icon>
         <v-icon @click="$refs.calendar.prev()" >mdi-chevron-left</v-icon>
       </v-btn>
-      <v-btn @click="setToday()">
+      <v-btn outlined small @click="setToday()">
         今日
       </v-btn>
       <v-btn icon>
@@ -24,20 +24,25 @@
       </v-btn>
       <v-toolbar-title>{{title}}</v-toolbar-title>
     </v-sheet>
-    <v-sheet height="100vh">
+    <v-sheet height="94vh" class="d-flex">
+      <v-sheet width="200px">
+        <CalendarList/>
+      </v-sheet>
       <!-- v-modelで読み込む月を指定 -->
       <!-- ref="calendar"でv-calnedarコンポーネントのメソッドを使用可能に -->
-      <v-calendar
-        ref="calendar"
-        :events="events"
-        @change="fetchEvents"
-        v-model="value"
-        locale="ja-jp"
-        :day-format="(timestamp) => new Date(timestamp.date).getDate()"
-        :month-format="(timestamp) => (new Date(timestamp.date).getMonth() + 1) + ' /'"
-        @click:event="showEvent"
-        @click:day="clickDay"
-      ></v-calendar>
+      <v-sheet class="flex">
+        <v-calendar
+          ref="calendar"
+          :events="events"
+          @change="fetchEvents"
+          v-model="value"
+          locale="ja-jp"
+          :day-format="(timestamp) => new Date(timestamp.date).getDate()"
+          :month-format="(timestamp) => (new Date(timestamp.date).getMonth() + 1) + ' /'"
+          @click:event="showEvent"
+          @click:day="clickDay"
+        ></v-calendar>
+      </v-sheet>
     </v-sheet>
     <v-dialog
       width="600"
@@ -59,6 +64,7 @@
 // import CalendarDetails from "./CalendarDetails";
 import EventDetailDialog from "../events/EventDetailDialog.vue";
 import EventFormDialog from "../events/EventFormDialog.vue"
+import CalendarList from "../calendars/CalendarList.vue"
 // import axios from "axios";
 import { mapGetters, mapActions } from 'vuex';
 // named impport
@@ -72,7 +78,6 @@ export default {
   data: () => ({
     // events: [],
     value: new Date('2021/07/01'),  // 表示する月を指定 v-model="value"と繋がっている
-    
     // event: null,
   }),
   computed: {
@@ -86,6 +91,7 @@ export default {
     // CalendarDetails,
     EventDetailDialog,
     EventFormDialog,
+    CalendarList,
   },
   methods: {
     // hoge() {
