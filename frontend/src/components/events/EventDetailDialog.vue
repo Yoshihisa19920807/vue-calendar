@@ -12,7 +12,7 @@
           <v-icon size="20px">mdi-close</v-icon>
         </v-btn>
       </v-card-actions>
-      <v-card-title class="px-15">
+      <v-card-title class="px-14">
         <DialogRow icon="mdi-square" :color="event.color">
           <div class="ms-8">
           {{ event.name }}
@@ -23,8 +23,15 @@
         <DialogRow icon="mdi-clock-time-three-outline">
           {{ event.startDate }}&nbsp;{{ event.timed ? event.startTime : '' }} ~ {{ event.endDate }}&nbsp;{{ event.timed ? event.endTime : '' }}
         </DialogRow>
+      </v-card-text>
+      <v-card-text>
         <DialogRow icon="mdi-card-text-outline">
           {{ event.description || 'no description' }}
+        </DialogRow>
+      </v-card-text>
+      <v-card-text>
+        <DialogRow icon="mdi-calendar">
+          {{ event.calendar.name }}
         </DialogRow>
       </v-card-text>
     </v-card>

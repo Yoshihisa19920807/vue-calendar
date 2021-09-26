@@ -43,6 +43,10 @@
       <DialogRow icon="mdi-card-text-outline">
         <Text v-model="description"/>
       </DialogRow>
+      <DialogRow icon="mdi-calendar">
+        <!-- @inputは子のemitに反応して発火するイベント -->
+        <CalendarSelect :value="calendar" @input="changeCalendar($event)" />
+      </DialogRow>
       <DialogRow icon="mdi-palette">
         Choose Color
         <ColorPicker v-model="color"/>
@@ -67,6 +71,7 @@ import TimePicker from "../forms/TimePicker.vue"
 import Text from "../forms/Text.vue"
 import ColorPicker from "../forms/ColorPicker.vue"
 import CheckBox from "../forms/CheckBox.vue"
+import CalendarSelect from "../forms/CalendarSelect"
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
 import { isEndGreaterThanStart } from '../../functions/dateTime';
@@ -85,6 +90,7 @@ export default {
     description: '',
     color: '',
     allDay: false,
+    calendar: null,
   }),
   components: {
     DialogRow,
@@ -93,6 +99,7 @@ export default {
     Text,
     ColorPicker,
     CheckBox,
+    CalendarSelect,
   },
   computed: {
     isInvalidDatetime(){
@@ -113,13 +120,14 @@ export default {
     this.startTime = this.event.startTime
     this.endTime = this.event.endTime
     this.allDay = !this.event.timed
+    this.calendar = this.event.calendar
   },
   methods: {
     closeDialog() {
       this.setEvent(null);
       this.setEditMode(false)
     },
-    create() {
+     create() {
       if (this.isInvalid) {
         return
       }
@@ -133,6 +141,7 @@ export default {
         description: this.description,
         color: this.color,
         timed: !this.allDay,
+        calendar_id: this.calendar.id,
       }
       if (param.id) {
         this.updateEvent(param);
@@ -147,6 +156,10 @@ export default {
         this.setEvent(null);
       }
     },
+    changeCalendar(calendar) {
+      this.color = calendar.color;
+      this.calendar = calendar;
+    },
     ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode', 'createEvent', 'updateEvent']),
   },
   validations: {
@@ -159,7 +172,8 @@ export default {
     },
     endDate: {
       required,
-    }
+    },
+    calendar: { required },
 
   }
 }
