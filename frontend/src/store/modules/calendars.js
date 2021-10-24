@@ -6,22 +6,33 @@ const apiUrl = 'http://localhost:3000';
 
 const state = {
   calendars: [],
+  calendar: null,
 };
 
 // 関数名を定義
 const getters = {
   // 関数名
   calendars: state => state.calendars.map(calendar => serializeCalendar(calendar)),
+  calendar: state => serializeCalendar(state.calendar),
 };
 
 const mutations = {
   setCalendars: (state, calendars) => (state.calendars = calendars),
+  setCalendar: (state, calendar) => (state.calendar = calendar),
+  appendCalendar: (state, calendar) => (state.calendars = [...state.calendars, calendar]),
 };
 
 const actions = {
   async fetchCalendars({ commit }) {
     const response = await axios.get(`${apiUrl}/calendars`);
     commit('setCalendars', response.data)
+  },
+  async createCalendar({ commit }, calendar) {
+    const response = await axios.post(`${apiUrl}/calendars`, calendar);
+    commit('appendCalendar', response.data);
+  },
+  setCalendar({ commit }, calendar) {
+    commit('setCalendar', calendar);
   },
 };
 
