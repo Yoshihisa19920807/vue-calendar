@@ -17,7 +17,7 @@
         <v-list-item-content class="pa-1">
           <v-checkbox
             dense
-            v-model="calendar.visibility"
+            v-model="calendar.is_visible"
             :color="calendar.color"
             :label="calendar.name"
             class="pb-2"
@@ -70,7 +70,7 @@ export default {
       this.fetchCalendars
       this.setCalendar({
         name: '',
-        visibility: true,
+        is_visible: true,
       });
     },
     closeDialog() {
