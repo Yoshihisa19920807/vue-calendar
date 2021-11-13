@@ -21,6 +21,7 @@ const mutations = {
   setCalendar: (state, calendar) => (state.calendar = calendar),
   appendCalendar: (state, calendar) => (state.calendars = [...state.calendars, calendar]),
   updateCalendar: (state, calendar) => (state.calendars = state.calendars.map(c => (c.id === calendar.id ? calendar : c))),
+  removeCalendar: (state, calendar) => (state.calendars = state.calendars.filter(c => c.id !== calendar.id)),
 };
 
 const actions = {
@@ -39,6 +40,10 @@ const actions = {
     console.log("updateCalendar__")
     const response = await axios.put(`${apiUrl}/calendars/${calendar.id}`, calendar);
     commit('updateCalendar', response.data);
+  },
+  async deleteCalendar({ commit }, id) {
+    const response = await axios.delete(`${apiUrl}/calendars/${id}`);
+    commit('removeCalendar', response.data);
   },
 };
 

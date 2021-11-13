@@ -33,6 +33,7 @@
             </template>
             <v-list>
               <v-list-item @click="edit(calendar)">編集</v-list-item>
+              <v-list-item @click="del(calendar)">削除</v-list-item>
             </v-list>
           </v-menu>
         </v-list-item-action>
@@ -64,7 +65,7 @@ export default {
   },
   methods: {
     // mapActions(モジュール名, ['アクション名１', 'アクション名２'])
-    ...mapActions('calendars', ['fetchCalendars', 'setCalendar']),
+    ...mapActions('calendars', ['fetchCalendars', 'deleteCalendar', 'setCalendar']),
     initCalendar() {
       this.fetchCalendars
       this.setCalendar({
@@ -78,6 +79,9 @@ export default {
     },
     edit(calendar) {
       this.setCalendar(calendar);
+    },
+    del(calendar) {
+      this.deleteCalendar(calendar.id);
     }
   },
 };
