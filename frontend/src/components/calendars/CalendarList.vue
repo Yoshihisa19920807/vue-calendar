@@ -15,11 +15,13 @@
     <v-list-item-group :value="selectedItem">
       <v-list-item v-for="calendar in calendars" :key="calendar.id">
         <v-list-item-content class="pa-1">
+          <!-- v-checkboxにv-model="calendar.visibility"を指定しているため、チェックボックスをクリックしたらcalendar.is_visibleの値が反転します。 -->
           <v-checkbox
             dense
             v-model="calendar.is_visible"
             :color="calendar.color"
             :label="calendar.name"
+            @click="toggleVisibility(calendar)"
             class="pb-2"
             hide-details="true"
           ></v-checkbox>
@@ -65,7 +67,7 @@ export default {
   },
   methods: {
     // mapActions(モジュール名, ['アクション名１', 'アクション名２'])
-    ...mapActions('calendars', ['fetchCalendars', 'deleteCalendar', 'setCalendar']),
+    ...mapActions('calendars', ['fetchCalendars', 'updateCalendar', 'deleteCalendar', 'setCalendar']),
     initCalendar() {
       this.fetchCalendars
       this.setCalendar({
@@ -82,7 +84,10 @@ export default {
     },
     del(calendar) {
       this.deleteCalendar(calendar.id);
-    }
+    },
+    toggleVisibility(calendar) {
+      this.updateCalendar(calendar);
+    },
   },
 };
 </script>
