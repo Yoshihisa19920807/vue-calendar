@@ -30,6 +30,6 @@ export const isEndGreaterThanStart = (startDate, startTime, endDate, endTime) =>
   }
 };
 
-export const isDateWithinIntecval = (date, startDate, endDate) => {
+export const isDateWithinInterval = (date, startDate, endDate) => {
   return isWithinInterval(new Date(date), { start: new Date(startDate), end: new Date(endDate) });
 }
