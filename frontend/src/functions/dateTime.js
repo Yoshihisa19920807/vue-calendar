@@ -1,5 +1,5 @@
 // named impport
-import { format, addHours } from 'date-fns';
+import { format, addHours, isWithinInterval } from 'date-fns';
 export const getTimeIntervalList = () => {
   // 15分間隔の時間のリストを返す
 
@@ -29,3 +29,7 @@ export const isEndGreaterThanStart = (startDate, startTime, endDate, endTime) =>
     return true
   }
 };
+
+export const isDateWithinIntecval = (date, startDate, endDate) => {
+  return isWithinInterval(new Date(date), { start: new Date(startDate), end: new Date(endDate) });
+}
