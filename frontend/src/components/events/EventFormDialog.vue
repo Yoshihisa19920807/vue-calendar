@@ -41,7 +41,7 @@
         <CheckBox v-model="allDay" :label="'All Day'" class="ma-0 pa-0"/>
       </DialogRow>
       <DialogRow icon="mdi-card-text-outline">
-        <Text v-model="description"/>
+        <TextInput v-model="description"/>
       </DialogRow>
       <DialogRow icon="mdi-calendar">
         <!-- @inputは子のemitに反応して発火するイベント -->
@@ -68,7 +68,7 @@ import { mapGetters, mapActions } from 'vuex';
 import DialogRow from "../layouts/DialogRow.vue"
 import DatePicker from "../forms/DatePicker.vue"
 import TimePicker from "../forms/TimePicker.vue"
-import Text from "../forms/Text.vue"
+import TextInput from "../forms/TextInput.vue"
 import ColorPicker from "../forms/ColorPicker.vue"
 import CheckBox from "../forms/CheckBox.vue"
 import CalendarSelect from "../forms/CalendarSelect"
@@ -96,7 +96,7 @@ export default {
     DialogRow,
     DatePicker,
     TimePicker,
-    Text,
+    TextInput,
     ColorPicker,
     CheckBox,
     CalendarSelect,
@@ -128,6 +128,7 @@ export default {
       this.setEditMode(false)
     },
      create() {
+       console.log(this.startTime)
       if (this.isInvalid) {
         return
       }
