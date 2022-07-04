@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CalendarsController < ApplicationController
   def index
     # イベントデータの一覧を返す
@@ -45,5 +47,4 @@ class CalendarsController < ApplicationController
   def calendar_params
     params.require(:calendar).permit(:id, :name, :is_visible, :color)
   end
-
 end
