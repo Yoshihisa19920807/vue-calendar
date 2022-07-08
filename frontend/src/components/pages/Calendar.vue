@@ -41,6 +41,8 @@
           :month-format="(timestamp) => (new Date(timestamp.date).getMonth() + 1) + ' /'"
           @click:event="showEvent"
           @click:day="clickDay"
+          @click:date="showDayEvents"
+          @click:more="showDayEvents"
         ></v-calendar>
       </v-sheet>
     </v-sheet>
@@ -57,6 +59,10 @@
         v-if="event !== null && isEditMode"
       />
     </v-dialog>
+    <v-dialog :value="clickedDate !== null" @click:outside="closeDialog" width="600">
+      <!-- <v-card light>hoge</v-card> -->
+      <DayEventList />
+    </v-dialog>
   </div>
 </template>
 
@@ -65,6 +71,7 @@
 import EventDetailDialog from "../events/EventDetailDialog.vue";
 import EventFormDialog from "../events/EventFormDialog.vue"
 import CalendarList from "../calendars/CalendarList.vue"
+import DayEventList from "../events/DayEventList.vue"
 // import axios from "axios";
 import { mapGetters, mapActions } from 'vuex';
 // named impport
@@ -85,13 +92,14 @@ export default {
       return format(new Date(this.value), 'yyyy年 M月');
     },
     // eventsモジュールのeventsステーート
-    ...mapGetters('events', ['events', 'event', 'isEditMode']),
+    ...mapGetters('events', ['events', 'event', 'isEditMode', 'clickedDate']),
   },
   components: {
     // CalendarDetails,
     EventDetailDialog,
     EventFormDialog,
     CalendarList,
+    DayEventList,
   },
   methods: {
     // hoge() {
@@ -116,7 +124,7 @@ export default {
     // },
 
     // eventsモジュールのfetchEventsアクション
-    ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode']),
+    ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode', 'setClickedDate']),
     setToday() {
       console.log("set_today")
       this.value = new Date()
@@ -130,22 +138,31 @@ export default {
     // ({date}) = (date.date)
     clickDay({date}) {
       console.log("clickDay")
+      if (this.clickedDate !== null) {
+        return;
+      }
       date = date.replace(/-/g, '/');
 
-      let start_end = getDefaultStartAndEnd(date)
+      let [start, end] = getDefaultStartAndEnd(date)
       const _event = {
         name: "",
-        start: new Date(start_end[0]),
-        end: new Date(start_end[1]),
+        start: new Date(start),
+        end: new Date(end),
         timed: true,
         color: "blue"
       }
       this.setEvent(_event)
       this.setEditMode(true)
     },
+    showDayEvents({ date }) {
+      console.log("showdayEvents")
+      date = date.replace(/-/g, '/');
+      this.setClickedDate(date);
+    },
     closeDialog() {
       this.setEvent(null);
-      this.setEditMode(false)
+      this.setEditMode(false);
+      this.setClickedDate(null);
     },
   },
 };

@@ -1,5 +1,13 @@
 // named impport
-import { format, addHours } from 'date-fns';
+import { format, addHours, isWithinInterval } from 'date-fns';
+import { ja } from 'date-fns/locale';
+
+// 省略
+
+export const formatDateToJa = date => {
+  // 日付を日本語表記で返す
+  return format(new Date(date), 'M月d日(E)', { locale: ja });
+};
 export const getTimeIntervalList = () => {
   // 15分間隔の時間のリストを返す
 
@@ -29,3 +37,16 @@ export const isEndGreaterThanStart = (startDate, startTime, endDate, endTime) =>
     return true
   }
 };
+
+export const isDateWithinInterval = (date, startDate, endDate) => {
+  return isWithinInterval(new Date(date), { start: new Date(startDate), end: new Date(endDate) });
+}
+
+export const compareDates = (a, b) => {
+  console.log(a, b);
+  console.log("hoge")
+  // 日付の比較を行う
+  if (a.start < b.start) return -1;
+  if (a.start > b.start) return 1;
+  return 0
+}

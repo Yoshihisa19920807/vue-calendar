@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # rails g migration AddCalendarIdToEvents calendar:references
 class AddCalendarIdToEvents < ActiveRecord::Migration[6.1]
   def change

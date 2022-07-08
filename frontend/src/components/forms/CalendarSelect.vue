@@ -14,7 +14,7 @@
 <script>
   import { mapGetters } from 'vuex';
   export default {
-    name: 'CalenderSelect',
+    name: 'CalendarSelect',
     // 親から渡される
     props: ['value'],
     computed: {
