@@ -2,7 +2,8 @@ import axios from 'axios';
 
 import { serializeCalendar } from '../../functions/serializers';
 
-const apiUrl = 'http://localhost:3000';
+// const apiUrl = 'http://localhost:3000';
+const apiUrl = 'http://34.105.77.36:3000'
 
 const state = {
   calendars: [],

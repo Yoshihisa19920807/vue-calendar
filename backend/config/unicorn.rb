@@ -9,7 +9,7 @@ worker_processes 2
 
 #listen "#{RAILS_ROOT}/tmp/sockets/unicorn.sock"
 listen "/var/www/projects/vue-calendar/backend/shared/tmp/sockets/unicorn.sock"
-pid "#{RAILS_ROOT}/tmp/pids/unicorn.pid"
+pid "/var/www/projects/vue-calendar/backend/shared/tmp/pids/unicorn.pid"
 
 
 preload_app true
