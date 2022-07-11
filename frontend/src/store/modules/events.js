@@ -4,7 +4,8 @@ import axios from 'axios';
 import { isDateWithinInterval, compareDates } from '../../functions/dateTime';
 import { serializeEvent } from '../../functions/serializers';
 
-const apiUrl = 'http://localhost:3000';
+// const apiUrl = 'http://localhost:3000';
+const apiUrl = 'http://34.105.77.36:3000';
 
 // 状態管理するデータを定義する
 const state = {
