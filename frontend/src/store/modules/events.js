@@ -5,7 +5,7 @@ import { isDateWithinInterval, compareDates } from '../../functions/dateTime';
 import { serializeEvent } from '../../functions/serializers';
 
 // const apiUrl = 'http://localhost:3000';
-const apiUrl = 'http://34.105.77.36:3000';
+const apiUrl = 'http://34.105.77.36/api';
 
 // 状態管理するデータを定義する
 const state = {
@@ -49,7 +49,7 @@ const mutations = {
 // axiosでAPIリクエストを送信してeventsデータを取得し、mutationを呼び出す関数を定義する
 const actions = {
   async fetchEvents({ commit }) {
-    const response = await axios.get(`${apiUrl}/api/events`);
+    const response = await axios.get(`${apiUrl}/events`);
     commit('setEvents', response.data);
   },
   setEvent({ commit }, event) {
@@ -62,16 +62,16 @@ const actions = {
     commit('setClickedDate', date);
   },
   async createEvent({ commit }, event) {
-    const response = await axios.post(`${apiUrl}/api/events`, event);
+    const response = await axios.post(`${apiUrl}/events`, event);
     commit('createEvent', response.data);
   },
   async deleteEvent({ commit }, id) {
-    const response = await axios.delete(`${apiUrl}/api/events/${id}`);
+    const response = await axios.delete(`${apiUrl}/events/${id}`);
     commit( 'removeEvent', response.data);
     commit( 'resetEvent');
   },
   async updateEvent({ commit }, event) {
-    const response = await axios.put(`${apiUrl}/api/events/${event.id}`, event);
+    const response = await axios.put(`${apiUrl}/events/${event.id}`, event);
     commit( 'updateEvent', response.data);
     // commit( 'resetEvent');
   }
