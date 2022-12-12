@@ -1,20 +1,13 @@
 FROM node:16.18-alpine
 
-WORKDIR /app
-
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 
-ADD package.json /app/package.json
-
 COPY package.json .
+COPY yarn.lock .
 
-RUN apk update && yarn
+ADD . ./
 
-ADD . /app
-
-RUN yarn build
-
-EXPOSE 3000
+RUN apk update && yarn && yarn build
 
 CMD ["yarn", "serve"]

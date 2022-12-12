@@ -20,6 +20,8 @@ services:
       - mysql_data:/var/lib/mysql/
     environment:
       MYSQL_ROOT_PASSWORD: dbabkidb8
+    ports:
+      - '3307:3306'
   front:
     build: ./frontend
     volumes:
