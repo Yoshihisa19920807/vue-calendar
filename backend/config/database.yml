@@ -15,7 +15,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password: dbabkidb8
-  host: db
+  host: localhost
 
 development:
   <<: *default
@@ -51,5 +51,4 @@ test:
 production:
   <<: *default
   database: backend_production
-  username: root
-  password: dbabkidb8
+  url: <%= ENV['DATABASE_URL'] %>
