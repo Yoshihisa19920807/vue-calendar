@@ -17,21 +17,25 @@ const state = {
 
 // stateの値を取り出す関数を定義する
 const getters = {
-  events: state => state.events.filter(event => event.calendar.is_visible).map(event => serializeEvent(event)),
-  event: state => serializeEvent(state.event),
-  dayEvents: state =>
+  events: (state) =>
     state.events
-      .map(event => serializeEvent(event))
-      .filter(
-        event => isDateWithinInterval(state.clickedDate, event.startDate, event.endDate),
-      ).sort(compareDates),
-      // .filter(
-      //   event =>
-      //     isWithinInterval(new Date(state.clickedDate), { start: new Date(event.startDate), end: new Date(event.endDate) })
-      // ),
+      .filter((event) => event.calendar.is_visible)
+      .map((event) => serializeEvent(event)),
+  event: (state) => serializeEvent(state.event),
+  dayEvents: (state) =>
+    state.events
+      .map((event) => serializeEvent(event))
+      .filter((event) =>
+        isDateWithinInterval(state.clickedDate, event.startDate, event.endDate)
+      )
+      .sort(compareDates),
+  // .filter(
+  //   event =>
+  //     isWithinInterval(new Date(state.clickedDate), { start: new Date(event.startDate), end: new Date(event.endDate) })
+  // ),
   // just a boolean
-  isEditMode: state => state.isEditMode,
-  clickedDate: state => state.clickedDate,
+  isEditMode: (state) => state.isEditMode,
+  clickedDate: (state) => state.clickedDate,
 };
 
 // eventsデータをstateに保存する関数を定義する
@@ -40,10 +44,12 @@ const mutations = {
   setEvent: (state, event) => (state.event = event),
   setEditMode: (state, isEditMode) => (state.isEditMode = isEditMode),
   createEvent: (state, event) => (state.events = [...state.events, event]),
-  removeEvent: (state, event) => (state.events = state.events.filter(e => e.id !== event.id)),
-  updateEvent: (state, event) => (state.events= state.events.map( e => (e.id === event.id ? event : e))),
-  resetEvent: state => (state.event = null),
-  setClickedDate: (state, date) => (state.clickedDate = date)
+  removeEvent: (state, event) =>
+    (state.events = state.events.filter((e) => e.id !== event.id)),
+  updateEvent: (state, event) =>
+    (state.events = state.events.map((e) => (e.id === event.id ? event : e))),
+  resetEvent: (state) => (state.event = null),
+  setClickedDate: (state, date) => (state.clickedDate = date),
 };
 
 // axiosでAPIリクエストを送信してeventsデータを取得し、mutationを呼び出す関数を定義する
@@ -55,10 +61,10 @@ const actions = {
   setEvent({ commit }, event) {
     commit('setEvent', event);
   },
-  setEditMode({ commit }, isEditMode ) {
+  setEditMode({ commit }, isEditMode) {
     commit('setEditMode', isEditMode);
   },
-  setClickedDate( { commit }, date) {
+  setClickedDate({ commit }, date) {
     commit('setClickedDate', date);
   },
   async createEvent({ commit }, event) {
@@ -67,14 +73,14 @@ const actions = {
   },
   async deleteEvent({ commit }, id) {
     const response = await axios.delete(`${apiUrl}/api/events/${id}`);
-    commit( 'removeEvent', response.data);
-    commit( 'resetEvent');
+    commit('removeEvent', response.data);
+    commit('resetEvent');
   },
   async updateEvent({ commit }, event) {
     const response = await axios.put(`${apiUrl}/api/events/${event.id}`, event);
-    commit( 'updateEvent', response.data);
+    commit('updateEvent', response.data);
     // commit( 'resetEvent');
-  }
+  },
 };
 
 export default {
@@ -82,5 +88,5 @@ export default {
   state,
   getters,
   mutations,
-  actions
+  actions,
 };
