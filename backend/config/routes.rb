@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   scope :api do
     resources :calendars
     resources :events
+    get :health_check, to: 'health_check#index'
   end
 end

@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  backend:
+    container_name: backend
+    build: ./backend/
+    # image: backend
+    command: bundle exec rails server -b 0.0.0.0
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./backend:/app:cached
+      - bundle_data:/usr/local/bundle:cached
+      - /app/vendor
+      - /app/tmp
+      - /app/log
+      - /app/.git
+    environment:
+      TZ: Asia/Tokyo
+    depends_on:
+      - db
+    ports:
+      - 3000:3000 # ポートフォワード
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    volumes:
+      - mysql_data:/var/lib/mysql/
+    environment:
+      TZ: Asia/Tokyo
+      # MYSQL_DATABASE: backend_production
+      # MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      # MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: dbabkidb8
+    ports:
+      - '3307:3306'
+  frontend:
+    container_name: front
+    build: ./frontend/
+    # image: frontend
+    volumes:
+      - ./frontend:/app
+    command: 'yarn serve'
+    ports:
+      - '8080:8080'
+    tty: true
+    stdin_open: true
+
+volumes:
+  mysql_data:
+  bundle_data:
