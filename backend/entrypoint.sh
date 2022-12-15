@@ -1,8 +1,9 @@
 #!/bin/sh
 
 sudo service nginx start
-ls -la
 cd /vue-calendar-backend
-ls -la
+echo 7
 bin/setup
 bundle exec pumactl start
+
+# mysql -u root -p

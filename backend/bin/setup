@@ -25,6 +25,7 @@ FileUtils.chdir APP_ROOT do
   # end
 
   puts "\n== Preparing database =="
+  # system! 'mysql -u admin -pdbabkidb8'
   system! 'bin/rails db:prepare'
 
   puts "\n== Removing old logs and tempfiles =="

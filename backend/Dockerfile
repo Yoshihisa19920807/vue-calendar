@@ -23,9 +23,13 @@ ADD . /vue-calendar-backend
 # nginx
 RUN groupadd nginx
 RUN useradd -g nginx nginx
+ADD nginx/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
 RUN chmod +x /vue-calendar-backend/entrypoint.sh
+
+VOLUME /vue-calendar-backend/public
+VOLUME /vue-calendar-backend/tmp
 
 CMD ["/vue-calendar-backend/entrypoint.sh"]
