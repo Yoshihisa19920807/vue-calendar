@@ -14,19 +14,17 @@
         <v-icon @click="hoge()" >he</v-icon>
       </v-btn> -->
       <v-btn icon>
-        <v-icon @click="$refs.calendar.prev()" >mdi-chevron-left</v-icon>
+        <v-icon @click="$refs.calendar.prev()">mdi-chevron-left</v-icon>
       </v-btn>
-      <v-btn outlined small @click="setToday()">
-        今日
-      </v-btn>
+      <v-btn outlined small @click="setToday()"> 今日 </v-btn>
       <v-btn icon>
         <v-icon @click="$refs.calendar.next()">mdi-chevron-right</v-icon>
       </v-btn>
-      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-sheet>
     <v-sheet height="94vh" class="d-flex">
       <v-sheet width="200px">
-        <CalendarList/>
+        <CalendarList />
       </v-sheet>
       <!-- v-modelで読み込む月を指定 -->
       <!-- ref="calendar"でv-calnedarコンポーネントのメソッドを使用可能に -->
@@ -38,7 +36,9 @@
           v-model="value"
           locale="ja-jp"
           :day-format="(timestamp) => new Date(timestamp.date).getDate()"
-          :month-format="(timestamp) => (new Date(timestamp.date).getMonth() + 1) + ' /'"
+          :month-format="
+            (timestamp) => new Date(timestamp.date).getMonth() + 1 + ' /'
+          "
           @click:event="showEvent"
           @click:day="clickDay"
           @click:date="showDayEvents"
@@ -46,20 +46,16 @@
         ></v-calendar>
       </v-sheet>
     </v-sheet>
-    <v-dialog
-      width="600"
-      @click:outside="closeDialog"
-      :value="event !== null"
-    >
-      <EventDetailDialog
-        v-if="event !== null && !isEditMode"
-      />
+    <v-dialog width="600" @click:outside="closeDialog" :value="event !== null">
+      <EventDetailDialog v-if="event !== null && !isEditMode" />
       <!-- ここでv-ifを指定しないと表示されてなくても読み込みは行われてしまう -->
-      <EventFormDialog
-        v-if="event !== null && isEditMode"
-      />
+      <EventFormDialog v-if="event !== null && isEditMode" />
     </v-dialog>
-    <v-dialog :value="clickedDate !== null" @click:outside="closeDialog" width="600">
+    <v-dialog
+      :value="clickedDate !== null"
+      @click:outside="closeDialog"
+      width="600"
+    >
       <!-- <v-card light>hoge</v-card> -->
       <DayEventList />
     </v-dialog>
@@ -68,23 +64,23 @@
 
 <script>
 // import CalendarDetails from "./CalendarDetails";
-import EventDetailDialog from "../events/EventDetailDialog.vue";
-import EventFormDialog from "../events/EventFormDialog.vue"
-import CalendarList from "../calendars/CalendarList.vue"
-import DayEventList from "../events/DayEventList.vue"
+import EventDetailDialog from '../events/EventDetailDialog.vue';
+import EventFormDialog from '../events/EventFormDialog.vue';
+import CalendarList from '../calendars/CalendarList.vue';
+import DayEventList from '../events/DayEventList.vue';
 // import axios from "axios";
 import { mapGetters, mapActions } from 'vuex';
 // named impport
 import { format } from 'date-fns';
 // // default import
 // import axios from 'axios';
-import { getDefaultStartAndEnd } from "../../functions/dateTime"
+import { getDefaultStartAndEnd } from '../../functions/dateTime';
 
 export default {
-  name: "Calendar",
+  name: 'Calendar',
   data: () => ({
     // events: [],
-    value: new Date('2021/07/01'),  // 表示する月を指定 v-model="value"と繋がっている
+    value: new Date(), // 表示する月を指定 v-model="value"と繋がっている
     // event: null,
   }),
   computed: {
@@ -110,7 +106,6 @@ export default {
     //     })
     // },
 
-
     // fetchEvents() {
     //   // GETリクエストを送信し、取得データをevents変数に代入する
     //   axios
@@ -124,38 +119,43 @@ export default {
     // },
 
     // eventsモジュールのfetchEventsアクション
-    ...mapActions('events', ['fetchEvents', 'setEvent', 'setEditMode', 'setClickedDate']),
+    ...mapActions('events', [
+      'fetchEvents',
+      'setEvent',
+      'setEditMode',
+      'setClickedDate',
+    ]),
     setToday() {
-      console.log("set_today")
-      this.value = new Date()
+      console.log('set_today');
+      this.value = new Date();
     },
     showEvent({ nativeEvent, event }) {
-      this.setEvent(event)
+      this.setEvent(event);
       // this.setEditMode(false)
       // prevent rendering editform
       nativeEvent.stopPropagation();
     },
     // ({date}) = (date.date)
-    clickDay({date}) {
-      console.log("clickDay")
+    clickDay({ date }) {
+      console.log('clickDay');
       if (this.clickedDate !== null) {
         return;
       }
       date = date.replace(/-/g, '/');
 
-      let [start, end] = getDefaultStartAndEnd(date)
+      let [start, end] = getDefaultStartAndEnd(date);
       const _event = {
-        name: "",
+        name: '',
         start: new Date(start),
         end: new Date(end),
         timed: true,
-        color: "blue"
-      }
-      this.setEvent(_event)
-      this.setEditMode(true)
+        color: 'blue',
+      };
+      this.setEvent(_event);
+      this.setEditMode(true);
     },
     showDayEvents({ date }) {
-      console.log("showdayEvents")
+      console.log('showdayEvents');
       date = date.replace(/-/g, '/');
       this.setClickedDate(date);
     },
