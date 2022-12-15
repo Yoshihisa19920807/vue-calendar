@@ -6,10 +6,7 @@ import { serializeEvent } from '../../functions/serializers';
 
 // const apiUrl = 'http://localhost:3000';
 // const apiUrl = 'http://34.105.77.36';
-const apiUrl =
-  process.env.NODE_ENV === 'production'
-    ? 'https://backend.yoshihisa-okada.net'
-    : 'http://localhost:3000';
+const apiUrl = process.env.VUE_APP_API_URL;
 
 // 状態管理するデータを定義する
 const state = {

@@ -10,4 +10,4 @@ ADD . ./
 
 RUN apk update && yarn && yarn build
 
-CMD ["yarn", "serve"]
+CMD ["yarn", "serve", "--", "--mode=production"]
